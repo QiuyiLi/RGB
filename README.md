@@ -117,7 +117,7 @@ python refined_gradient_boosting.py \
 
 - `ranking_accuracy.csv`: Accuracy metrics for ranking
 
-### File Formats
+## File Formats
 
 #### MSA Input Format
 ```text
