@@ -6,7 +6,7 @@ This module implements a three-stage feature selection method:
 2. Feature Distillation: Refining the feature pool
 3. Feature Ranking: Final ranking and selection of features
 
-Author: Your Name
+Author: Qiuyi Li
 License: MIT
 """
 
