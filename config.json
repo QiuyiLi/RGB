@@ -1,0 +1,35 @@
+{
+  "model_params": {
+    "learning_rate": 0.05,
+    "n_estimators": 512,
+    "num_leaves": 32,
+    "min_child_samples": 2,
+    "early_stopping_round": 64,
+    "n_jobs": 4,
+    "num_threads": 4,
+    "random_state": 42,
+    "importance_type": "shap"
+  },
+  "feature_pooling": {
+    "step": 80,
+    "n_iter": 10,
+    "refinement_iter": 100,
+    "max_features": 10000,
+    "correlation_threshold": 0.05
+  },
+  "feature_distillation": {
+    "step": 100,
+    "top_n": 30,
+    "n_iter": 100,
+    "refinement_iter": 100,
+    "max_attempts": 5,
+    "max_features": 1000
+  },
+  "feature_ranking": {
+    "n_iter": 200
+  },
+  "data_settings": {
+    "test_size": 0.1,
+    "validation_size": 0.1
+  }
+}
