@@ -16,14 +16,6 @@
 
 ## Installation
 
-### From PyPI (after publishing)
-
-```bash
-pip install rgb-feature-selection
-```
-
-### From Source
-
 ```bash
 git clone https://github.com/QiuyiLi/RGB.git
 cd RGB
