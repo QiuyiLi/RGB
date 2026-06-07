@@ -11,9 +11,11 @@ __license__ = "MIT"
 
 from rgb.feature_selection import RefinedGradientBoosting, Config
 from rgb.msa_preprocessor import MSAPreprocessor
+from rgb.prediction import RGBPredictor
 
 __all__ = [
     "RefinedGradientBoosting",
     "Config",
     "MSAPreprocessor",
+    "RGBPredictor",
 ]

@@ -56,6 +56,7 @@ setup(
         "console_scripts": [
             "rgb-feature-select=rgb.feature_selection:main",
             "rgb-msa-preprocess=rgb.msa_preprocessor:main",
+            "rgb-predict=rgb.prediction:main",
         ],
     },
     include_package_data=True,

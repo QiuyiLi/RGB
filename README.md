@@ -7,12 +7,14 @@
 
 ## Key Features
 
-- **MSA Preprocessing**: Convert Multiple Sequence Alignment data to ML-ready features
 - **Three-Stage Feature Selection**: Pooling → Distillation → Ranking for robust feature identification
+- **MSA Preprocessing**: Convert Multiple Sequence Alignment data to ML-ready features
+- **Model Training & Evaluation**: Built-in cross-validation and test evaluation with selected features
 - **SHAP-Based Importance**: Reliable feature importance using SHAP values
 - **Parallel Processing**: Efficient processing with multi-core support
 - **Flexible Configuration**: JSON-based configuration system
-- **Command-Line Tools**: Ready-to-use CLI for both feature selection and MSA preprocessing
+- **Command-Line Tools**: Ready-to-use CLI for feature selection, MSA preprocessing, and prediction
+- **Multiple Tasks**: Support for both regression and classification
 
 ## Installation
 
@@ -82,6 +84,38 @@ final_features = selector.feature_ranking(features_distilled, n_features=30, out
 print(f"Selected {len(final_features)} features")
 ```
 
+### 3. Model Training and Evaluation
+
+```python
+from rgb import RGBPredictor
+
+# Initialize predictor
+predictor = RGBPredictor(
+    task='regression',  # or 'classification'
+    n_folds=10,
+    test_size=0.2,
+    random_state=42
+)
+
+# Load data with selected features
+predictor.load_data(
+    X='features.parquet',
+    y='target.csv',
+    selected_features='results/feature_ranking.csv'
+)
+
+# Run 10-fold cross-validation
+cv_results = predictor.cross_validate()
+print(f"CV R²: {cv_results['val_r2_mean']:.4f} ± {cv_results['val_r2_std']:.4f}")
+
+# Train and evaluate on test set
+test_results = predictor.train_test_evaluate()
+print(f"Test R²: {test_results['val_r2']:.4f}")
+
+# Save results and feature importance
+predictor.save_results('./prediction_results')
+```
+
 ## Command-Line Usage
 
 ### Feature Selection
@@ -134,6 +168,36 @@ rgb-msa-preprocess \
     --taxonomy_path taxonomy.csv \
     --taxonomy_filter "order:Passeriformes" \
     --output_prefix msa_passeriformes
+```
+
+### Model Prediction
+
+```bash
+# Basic usage - both CV and test evaluation
+rgb-predict \
+    --X_path features.parquet \
+    --y_path target.csv \
+    --features results/feature_ranking.csv \
+    --task regression \
+    --output_dir ./prediction_results
+
+# Cross-validation only
+rgb-predict \
+    --X_path features.parquet \
+    --y_path target.csv \
+    --features results/feature_ranking.csv \
+    --task regression \
+    --mode cv \
+    --n_folds 10
+
+# Classification task
+rgb-predict \
+    --X_path features.csv \
+    --y_path labels.csv \
+    --features selected_features.txt \
+    --task classification \
+    --target_column label \
+    --mode both
 ```
 
 ## Method Overview
@@ -197,6 +261,7 @@ The [examples/](examples/) directory contains detailed usage examples:
 
 - [example_msa_processing.py](examples/example_msa_processing.py): MSA preprocessing examples
 - [example_feature_selection.py](examples/example_feature_selection.py): Feature selection examples
+- [example_prediction.py](examples/example_prediction.py): Model training and evaluation examples
 
 ## API Documentation
 
@@ -221,6 +286,18 @@ Main class for feature selection.
 - `feature_pooling(output_dir)`: Stage 1 - Feature pooling
 - `feature_distillation(initial_features, output_dir)`: Stage 2 - Feature distillation
 - `feature_ranking(features, n_features, output_dir)`: Stage 3 - Feature ranking
+
+### RGBPredictor
+
+Class for model training and evaluation with selected features.
+
+**Methods:**
+- `load_data(X, y, selected_features=None, target_column='target')`: Load data
+- `cross_validate(X=None, y=None, early_stopping_rounds=50)`: Perform k-fold cross-validation
+- `train_test_evaluate(X=None, y=None, early_stopping_rounds=50)`: Train on train set and evaluate on test set
+- `save_results(output_dir, prefix='prediction')`: Save prediction results
+- `get_cv_results()`: Get cross-validation results as DataFrame
+- `get_feature_importance()`: Get feature importance from final model
 
 ### Utility Functions
 
