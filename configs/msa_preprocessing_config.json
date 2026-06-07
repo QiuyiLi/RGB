@@ -1,0 +1,15 @@
+{
+  "preprocessing_parameters": {
+    "min_variant_freq": 0.05,
+    "conserved_threshold": 0.95,
+    "gene_correlation_threshold": 0.8
+  },
+  "input_output": {
+    "index_col": 0,
+    "output_prefix": "msa_processed"
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(message)s"
+  }
+}
