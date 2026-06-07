@@ -164,7 +164,7 @@ if __name__ == '__main__':
     # features = example_custom_config()
 
     # Example 5: With training samples
-    # final_features = example_with_training_samples()
+    final_features = example_with_training_samples()
 
     print("\nNote: Uncomment one of the examples above to run it.")
     print("Make sure to update file paths to point to your actual data files.")
